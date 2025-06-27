@@ -1,0 +1,70 @@
+body {
+    font-family: 'Franklin Gothic Medium';
+    color: beige;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    background-color: grey;
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+header {
+    background-color: black;
+    color: white;
+    padding: 20px;
+    cursor: text;
+}
+
+section {
+    padding: 20px;
+    margin: 20px;
+}
+
+#about img {
+    width: 180px;
+    height: 190px;
+    border-radius: 20%;
+}
+
+#about p {
+    display: block;
+    background-color: black;
+    color: beige;
+    padding: 2%;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+.button:hover {
+    color: green;
+}
+
+#skills ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+#skills li {
+    display: block; 
+    
+    margin: 10px auto; 
+    padding: 10px 25px;
+    background-color: #ddd;
+    border-radius: 30px;
+    color: black;
+    font-size: 18px;
+    font-weight: bold;
+    max-width: 300px; 
+    text-align: center;
+}
+
+
+a {
+    color: blue;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
