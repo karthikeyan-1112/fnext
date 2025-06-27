@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Interactive Calculator</title>
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background: #f7cac9;
+      font-family: 'Share Tech Mono', 'Segoe UI', Arial, monospace;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+    }
+    .calculator {
+      background: #fff;
+      border-radius: 0;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.12);
+      padding: 32px 24px;
+      width: 320px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .display {
+      width: 100%;
+      height: 64px;
+      background: #f1f1f1;
+      border-radius: 0;
+      margin-bottom: 18px;
+      font-size: 2.8rem;
+      text-align: right;
+      padding: 16px 18px;
+      box-sizing: border-box;
+      overflow-x: auto;
+      font-family: 'Share Tech Mono', monospace;
+      letter-spacing: 2px;
+    }
+    .buttons {
+      width: 100%;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+    button {
+      padding: 18px 0;
+      font-size: 1.1rem;
+      border: none;
+      border-radius: 0;
+      background: #e7e7e7;
+      cursor: pointer;
+      transition: background 0.2s;
+      font-family: 'Share Tech Mono', monospace;
+    }
+    button.operator { background: #f7cac9; color: #b71c1c; }
+    button.equal { background: #b71c1c; color: #fff; }
+    button.clear { background: #bdbdbd; color: #333; }
+    button.delete { background: #ffe082; color: #b71c1c; }
+    button:active { background: #f1b6b6; }
+  </style>
+</head>
+<body>
+  <div class="calculator">
+    <div class="display" id="display">0</div>
+    <div class="buttons">
+      <button onclick="append('7')">7</button>
+      <button onclick="append('8')">8</button>
+      <button onclick="append('9')">9</button>
+      <button class="operator" onclick="append('/')">÷</button>
+      <button onclick="append('4')">4</button>
+      <button onclick="append('5')">5</button>
+      <button onclick="append('6')">6</button>
+      <button class="operator" onclick="append('*')">×</button>
+      <button onclick="append('1')">1</button>
+      <button onclick="append('2')">2</button>
+      <button onclick="append('3')">3</button>
+      <button class="operator" onclick="append('-')">−</button>
+      <button onclick="append('0')">0</button>
+      <button onclick="append('.')">.</button>
+      <button class="clear" onclick="clearDisplay()">C</button>
+      <button class="operator" onclick="append('+')">+</button>
+      <button class="operator" onclick="append('^')">^</button>
+      <button class="delete" onclick="deleteDigit()">⌫</button>
+      <button class="equal" style="grid-column: span 2" onclick="calculate()">=</button>
+    </div>
+  </div>
+  <script>
+    let display = document.getElementById('display');
+    let current = '';
+    function append(char) {
+      if (current === '0' && char !== '.') current = '';
+      current += char;
+      display.textContent = current;
+    }
+    function clearDisplay() {
+      current = '';
+      display.textContent = '0';
+    }
+    function calculate() {
+      try {
+        let expr = current.replace(/÷/g, '/').replace(/×/g, '*').replace(/−/g, '-');
+        // Replace ^ with ** for power
+        expr = expr.replace(/(\d+(?:\.\d+)?|\))\^(\d+(?:\.\d+)?)/g, '$1**$2');
+        let result = eval(expr);
+        display.textContent = result;
+        current = result.toString();
+      } catch {
+        display.textContent = 'Error';
+        current = '';
+      }
+    }
+    function deleteDigit() {
+      current = current.slice(0, -1);
+      display.textContent = current || '0';
+    }
+    // Keyboard support
+    document.addEventListener('keydown', function(e) {
+      if (e.key >= '0' && e.key <= '9') {
+        append(e.key);
+      } else if (e.key === '.') {
+        append('.');
+      } else if (e.key === '+' || e.key === '-') {
+        append(e.key);
+      } else if (e.key === '*' || e.key === 'x' || e.key === 'X') {
+        append('*');
+      } else if (e.key === '/' || e.key === '÷') {
+        append('/');
+      } else if (e.key === 'Enter' || e.key === '=') {
+        calculate();
+      } else if (e.key === 'Backspace') {
+        current = current.slice(0, -1);
+        display.textContent = current || '0';
+      } else if (e.key === 'c' || e.key === 'C') {
+        clearDisplay();
+      }
+    });
+  </script>
+</body>
+</html>
